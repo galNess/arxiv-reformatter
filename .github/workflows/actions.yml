@@ -2,7 +2,7 @@ name: run main.py
 
 on:
   schedule:
-    - cron: '0 0 * * 1' # At 00:00 on Monday
+    - cron: '5 */2 * * *' # At minute 5 past every 2nd hour
 
 jobs:
   build:
@@ -17,14 +17,18 @@ jobs:
         with:
           python-version: '3.9' # install the python version needed
           
-      - name: install python packages
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          
       - name: execute py script # run main.py
         env:
-          SOME_SECRET: ${{ secrets.SOME_SECRET }}
+          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECIPIENTS_CS: ${{ secrets.EMAIL_RECIPIENTS_CS }}
+          EMAIL_RECIPIENTS_PHYSICS: ${{ secrets.EMAIL_RECIPIENTS_PHYSICS }}
+          TRASH_FETCHED_EMAILS: ${{ secrets.TRASH_FETCHED_EMAILS }}
+          MARK_CS: ${{ secrets.MARK_CS }}
+          MARK_PHYSICS: ${{ secrets.MARK_PHYSICS }}
+          ADVERTISE_MARKED: ${{ secrets.ADVERTISE_MARKED }}
+          SKIP_CS: ${{ secrets.SKIP_CS }}
+          SKIP_PHYSICS: ${{ secrets.SKIP_PHYSICS }}
         run: python main.py
           
       - name: commit files

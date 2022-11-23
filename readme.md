@@ -35,6 +35,8 @@ and send them to your own email.
     - `SKIP_CS`: **optional**. List of words in the title to skip from reformatting. This is useful if you want
       to skip some papers that you find irrelevant, .e.g., `"['crypto', 'vision']"`.
     - `SKIP_PHYSICS`: **optional**. Same as `SKIP_CS`, but for physics arXiv emails.
+	- Note that **optional** parameters are, well, optional. But if you don't keep them in the environment make sure to
+	  clear them from the `/.github/workflows/actions.yml` file too!
 5. Go to the repo actions, and enable the workflow.
     - To dig deeper into the gitHub actions part, you can check out 
       [the template I forked](https://gitHub.com/patrickloeber/python-gitHub-action-template) to create this repo.
