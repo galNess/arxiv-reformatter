@@ -17,25 +17,25 @@ and send them to your own email.
    [https://arxiv.org/help/subscribe](https://arxiv.org/help/subscribe)).
 3. Fork this repo.
 4. Go to the repo settings, and add the following secrets:
-    - `EMAIL_USERNAME`: Email address of the dummy Gmail account, e.g., `'yourdummyaccount@gmail.com'`.
-    - `EMAIL_PASSWORD`: App password of the dummy Gmail account, e.g., `'your appp assw ordd'`.
+    - `EMAIL_USERNAME`: Email address of the dummy Gmail account, e.g., `yourdummyaccount@gmail.com`.
+    - `EMAIL_PASSWORD`: App password of the dummy Gmail account, e.g., `your appp assw ordd`.
     - `EMAIL_RECIPIENTS_CS`: Address(es) you want to send the reformatted emails to, e.g.,
-      `'yourrealemail@gmail.com'` or `"['yourrealemail@gmail.com', 'lazyfriend@gmail.com']"`.
-      Note that the quotes are necessary to define a list in a single string (to be cast as an environment variable).
+      `yourrealemail@gmail.com` or `["yourrealemail@gmail.com", "lazyfriend@gmail.com"]`.
+      Note that the double quotes are necessary to define a list inside a string (that cast as an environment variable).
       Generally, *cs* sets the default values for any other undefined category.
     - `EMAIL_RECIPIENTS_PHYSICS`: **optional**. Address(es) to send *physics* arXiv emails to. If you don't specify
       this one, it follows `EMAIL_RECIPIENTS_CS`.
-    - `TRASH_FETCHED_EMAILS`: **optional**, [default is `'True'`]. If you want to delete the emails from the dummy Gmail
-      account after they are reformatted, set this to `'True'`. Otherwise, set it to `'False'`.
+    - `TRASH_FETCHED_EMAILS`: **optional**, [default is `True`]. If you want to delete the emails from the dummy Gmail
+      account after they are reformatted, set this to `True`. Otherwise, set it to `False`.
       This is not a secret, but it is simpler to set all parameters in the same way.
-      Also here note that the quotes are necessary to cast it as a string.
     - `MARK_CS`: **optional**. List of authors to mark in the email head (and bold in the body). Note to only use
-      first and last names, e.g., `"['John Doe', 'Jane Doe']"`, and avoid middle names.
+      first and last names, e.g., `["John Doe", "Jane Doe"]`, and avoid middle names.
+      Also here, as in the following parameters, note that the quotes are necessary to cast it in the string.
     - `MARK_PHYSICS`: **optional**. Same as `MARK_PHYSICS`, but for cs arXiv emails.
-    - `ADVERTISE_MARKED`: **optional**, [default is `"True"`]. If you want to send emails that feature marked authors 
+    - `ADVERTISE_MARKED`: **optional**, [default is `True`]. If you want to send emails that feature marked authors 
        also to the other mailing list.
     - `SKIP_CS`: **optional**. List of words in the title to skip from reformatting. This is useful if you want
-      to skip some papers that you find irrelevant, .e.g., `"['crypto', 'vision']"`.
+      to skip some papers that you find irrelevant, .e.g., `["crypto", "vision"]`.
     - `SKIP_PHYSICS`: **optional**. Same as `SKIP_CS`, but for physics arXiv emails.
 	- Note that **optional** parameters are, well, optional. But if you don't keep them in the environment make sure to
 	  clear them from the `/.github/workflows/actions.yml` file too!
