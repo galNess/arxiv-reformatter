@@ -1,3 +1,5 @@
+[![run main.py](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml/badge.svg)](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml)
+
 # arXiv reformatter
 
 This is a simple repo to reformat arXiv subscription emails into a more easily readable format.
