@@ -1,5 +1,3 @@
-[![run main.py](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml/badge.svg)](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml)
-
 # arXiv reformatter
 
 This is a simple repo to reformat arXiv subscription emails into a more easily readable format.
@@ -57,5 +55,9 @@ and send them to your own email.
 Personally, I use this repo to reformat arXiv emails from both cs and physics and send them to my own email.
 You can easily modify the code to suit your needs.
 
-Currently, the action initiates every couple of hours and gathers statistics on the email times from arXiv.
+Currently, the action initiates twice every hour and gathers statistics on the email times from arXiv.
 Later this can be used to trigger the action at more appropriate times.
+GitHub’s free tier offers 2000 runtime minutes per month. One run takes about 20s, so it’s ~200 runs per day.
+
+## Last run status
+[![run main.py](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml/badge.svg)](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml)
