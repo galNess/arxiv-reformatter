@@ -7,7 +7,7 @@ This is a simple repo to reformat arXiv subscription emails into a more easily r
 ![Usage examples](arxiv_reformatter.png)
 
 
-## Key features:
+## Key features
 1. Strips abstracts.
 2. Highlights listings from selected authors.
 3. Skips listings with specified title words (clears some hype).
