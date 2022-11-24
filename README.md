@@ -6,6 +6,14 @@ This is a simple repo to reformat arXiv subscription emails into a more easily r
 
 ![Usage examples](arxiv_reformatter.png)
 
+
+## Key features:
+1. Strips abstracts.
+2. Highlights listings from selected authors.
+3. Skips listings with specified title words (clears some hype).
+4. Handles two arXiv categories with individual parameters for each.
+
+
 ## Usage
 The main idea is to use a dummy Gmail account to subscribe to arXiv.
 Then, you can fork this repo to your own gitHub account and use gitHub actions to automatically reformat the emails 
@@ -43,6 +51,7 @@ and send them to your own email.
     - To dig deeper into the gitHub actions part, you can check out 
       [the template I forked](https://gitHub.com/patrickloeber/python-gitHub-action-template) to create this repo.
 6. Enjoy!
+
 
 ## Specifics
 Personally, I use this repo to reformat arXiv emails from both cs and physics and send them to my own email.
