@@ -37,9 +37,12 @@ if __name__ == "__main__":
 
     # loop over emails
     from_arxiv = ['first iteration']
-    while from_arxiv:
+    while True:
         # fetch first email
         from_arxiv, cur_msg, date_time = reformatter.fetch_emails(from_arxiv)
+        if cur_msg is None:  # no more arXiv emails
+            break
+            
         title = extract_email_category(cur_msg)
         msg_id = from_arxiv.pop(0)
 

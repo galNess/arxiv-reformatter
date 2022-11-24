@@ -209,6 +209,9 @@ class ArxivReformatter:
             from_arxiv = from_arxiv[0].split(b' ')
         msg_id = from_arxiv[0]
 
+        if not msg_id:
+            return [], None, None
+
         # fetch the email body (RFC822) for the given ID:
         sts_msg, cur_msg = self.mail_imap.fetch(msg_id, '(RFC822)')
         if sts_msg != 'OK':
