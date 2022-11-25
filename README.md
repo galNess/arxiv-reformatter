@@ -13,7 +13,7 @@ This is a simple repo to reformat arXiv subscription emails into a more easily r
 
 
 ## Usage
-The main idea is to use a dummy Gmail account to subscribe to arXiv.
+The main idea is to use a dummy Gmail account to subscribe to arXiv with.
 Then, you can fork this repo to your own gitHub account and use gitHub actions to automatically reformat the emails 
 and send them to your own email.
 
@@ -37,12 +37,12 @@ and send them to your own email.
     - `MARK_CS`: **optional**. List of authors to mark in the email head (and bold in the body). Note to only use
       first and last names, e.g., `["John Doe", "Jane Doe"]`, and avoid middle names.
       Also here, as in the following parameters, note that the quotes are necessary to cast it in the string.
-    - `MARK_PHYSICS`: **optional**. Same as `MARK_PHYSICS`, but for cs arXiv emails.
+    - `MARK_PHYSICS`: **optional**. Same as `MARK_CS`, but for *physics* arXiv emails.
     - `ADVERTISE_MARKED`: **optional**, [default is `True`]. If you want to send emails that feature marked authors 
        also to the other mailing list.
     - `SKIP_CS`: **optional**. List of words in the title to skip from reformatting. This is useful if you want
       to skip some papers that you find irrelevant, .e.g., `["crypto", "vision"]`.
-    - `SKIP_PHYSICS`: **optional**. Same as `SKIP_CS`, but for physics arXiv emails.
+    - `SKIP_PHYSICS`: **optional**. Same as `SKIP_CS`, but for *physics* arXiv emails.
 	- Note that **optional** parameters are, well, optional. But if you don't keep them in the environment make sure to
 	  clear them from the `/.github/workflows/actions.yml` file too!
 5. Go to the repo actions, and enable the workflow.
