@@ -2,7 +2,6 @@ from reformatter import *
 import logging
 import logging.handlers
 
-
 # load parameters from environment secrets
 email_username = set_from_env('EMAIL_USERNAME', 'vital')
 email_password = set_from_env('EMAIL_PASSWORD', 'vital')
@@ -48,6 +47,12 @@ if __name__ == "__main__":
             
         title = extract_email_category(cur_msg)
         msg_id = from_arxiv.pop(0)
+
+        if title is None:
+            logger.info(f'Email {msg_id} is not the daily arXiv digest.')
+            if trash_fetched:
+                reformatter.mail_imap.store(msg_id, '+X-GM-LABELS', '\\Trash')
+            continue
 
         # reformat email
         if title == 'physics':

@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from datetime import datetime, timezone
 
 
-def extract_email_category(email: str) -> str:
+def extract_email_category(email: str):
     """
     Extracts the category of the email.
     :param email: email to extract category from.
@@ -14,9 +14,10 @@ def extract_email_category(email: str) -> str:
     """
 
     ttl_idx0 = email.find('Subject: ')
+    if ttl_idx0 == -1:
+        return None
     ttl_idx1 = email.find(' daily', ttl_idx0 + 1)
     ttl = email[ttl_idx0 + 9:ttl_idx1]
-
     return ttl
 
 
