@@ -20,13 +20,14 @@ def extract_email_category(email: str) -> str:
     return ttl
 
 
-def reformat_email(msg: str, ttl: str, mark_authors=None, skip_words=None) -> tuple:
+def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip_words=None, send_marked_only=False) -> tuple:
     """
     Parses the email message and generates an improved (clean) version.
     :param msg: original email message.
     :param ttl: category of the email.
-    :param skip_words: list of words to skip listings that feature them in their titles.
     :param mark_authors: list of authors to highlight.
+    :param mark_titles: list of words in titles to highlight.
+    :param skip_words: list of words to skip listings that feature them in their titles.
     :return: tuple of: (clean_email: str - html formatted email,
                         marked: bool, if the email contains a marked author to use with "advertise_marked").
     """
@@ -40,6 +41,8 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, skip_words=None) -> tu
     skipped_num = [0] * len(skip_words)
     marked = []
     marked_num = [False] * len(mark_authors)
+    keywords = []
+    keywords_num = [False] * len(mark_authors)
     marked_firsts = [author.split(' ')[0] for author in mark_authors]
     marked_lasts = [author.split(' ')[-1] for author in mark_authors]
 
@@ -74,12 +77,26 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, skip_words=None) -> tu
                     author_idx0 = cur_authors.lower().rfind(', ', 0, author_idx1)
                     author_idx0 = author_idx0 + 2 if author_idx0 >= 0 else 0
 
-                    cur_authors = cur_authors[:author_idx0] + '<b>' + cur_authors[author_idx0:author_idx1] + \
-                                    '</b>' + cur_authors[author_idx1:]
+                    cur_authors = '{0}<b>{1}</b>{2}'.format(cur_authors[:author_idx0],
+                                                            cur_authors[author_idx0:author_idx1],
+                                                            cur_authors[author_idx1:])
+
+        # check if we should highlight one of the keywords in the title:
+        keywords.append(False)
+        for i in range(len(mark_titles)):
+            if mark_titles[i].lower() in cur_title.lower():
+                keywords[-1] = True
+                keywords_num[i] = True
+
+                emph_idx0 = cur_title.lower().find(mark_titles[i].lower())
+                emph_idx1 = emph_idx0 + len(mark_titles[i])
+
+                cur_title = '{0}<b>{1}</b>{2}'.format(cur_title[:emph_idx0], cur_title[emph_idx0:emph_idx1],
+                                                      cur_title[emph_idx1:])
 
         # check if we should skip this listing:
         skipped.append(False)
-        if not marked[-1]:
+        if (not marked[-1]) and (not keywords[-1]):
             for i in range(len(skip_words)):
                 if skip_words[i].lower() in cur_title.lower():
                     skipped[-1] = True
@@ -91,6 +108,15 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, skip_words=None) -> tu
         authors.append(cur_authors)
         crossref.append('(*cross-listing*)' in cur_listing)
         replaced.append('replaced with revised version' in cur_listing)
+
+    # filter only marked listings:
+    if send_marked_only:
+        marked_or_keywords = [marked[i] or keywords[i] for i in range(len(marked))]
+        links = [links[i] for i in range(len(links)) if marked_or_keywords[i]]
+        titles = [titles[i] for i in range(len(titles)) if marked_or_keywords[i]]
+        authors = [authors[i] for i in range(len(authors)) if marked_or_keywords[i]]
+        crossref = [crossref[i] for i in range(len(crossref)) if marked_or_keywords[i]]
+        replaced = [replaced[i] for i in range(len(replaced)) if marked_or_keywords[i]]
 
     # build reformatted message:
     msg_header = """<html>
@@ -112,10 +138,27 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, skip_words=None) -> tu
         msg_header = msg_header[:-2] + ". <br>"
 
     is_marked = sum(marked) > 0
-    if is_marked:
-        msg_header += 'Notice listings' if sum(marked) > 1 else 'Notice listing'
-        msg_header += ' Nr. ' + ', '.join([str(i + 1) for i in range(len(marked)) if marked[i]]) + ' by ' + \
-                      ', '.join([mark_authors[i] for i in range(len(marked_num)) if marked_num[i]]) + ". <br>"
+    is_keyword = sum(keywords) > 0
+    if not send_marked_only:
+        if is_marked:
+            msg_header += 'Notice listings' if sum(marked) > 1 else 'Notice listing'
+            msg_header += ' Nr. ' + ', '.join([str(i + 1) for i in range(len(marked)) if marked[i]]) + ' by ' + \
+                          ', '.join([mark_authors[i] for i in range(len(marked_num)) if marked_num[i]]) + ". <br>"
+        if is_keyword:
+            msg_header += 'Notice listings' if sum(keywords) > 1 else 'Notice listing'
+            msg_header += ' Nr. ' + ', '.join([str(i + 1) for i in range(len(keywords)) if keywords[i]]) + ' with ' + \
+                          ', '.join([mark_titles[i] for i in range(len(keywords_num)) if keywords_num[i]]) + ". <br>"
+
+    else:  # send marked only
+        msg_header += 'Only showing selected listings: <br>'
+        if is_marked:
+            msg_header += '* By ' + ', '.join([mark_authors[i] for i in range(len(marked_num)) if marked_num[i]]) + \
+                          ". <br>"
+
+        if is_keyword:
+            msg_header += '* With ' + \
+                          ', '.join(['"' + mark_titles[i] + '"' for i in range(len(keywords_num)) if keywords_num[i]]) \
+                          + ". <br>"
 
     msg_body = '<br><br>'
     for idx in range(len(titles)):
@@ -151,11 +194,13 @@ def set_from_env(env_var_name: str, default_value):
     :return:
     """
     if env_var_name in os.environ:
-        return unstring(os.environ[env_var_name])
+        env_var = unstring(os.environ[env_var_name])
+        if env_var is not None:
+            return env_var
     else:
         if default_value == 'vital':
             raise Exception(f"Missing environment variable {env_var_name}")
-        return default_value
+    return default_value
 
 
 def unstring(s: str):
@@ -164,7 +209,9 @@ def unstring(s: str):
     :param s: string to convert
     :return: original type
     """
-    if s == 'True':
+    if not len(s):
+        return None
+    elif s == 'True':
         return True
     elif s == 'False':
         return False

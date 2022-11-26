@@ -14,7 +14,10 @@ email_recipients_all = [x for x in email_recipients_cs + email_recipients_physic
 trash_fetched = set_from_env('TRASH_FETCHED', True)
 mark_cs = set_from_env('MARK_CS', None)
 mark_physics = set_from_env('MARK_PHYSICS', mark_cs)
+emph_cs = set_from_env('EMPH_CS', None)
+emph_physics = set_from_env('EMPH_PHYSICS', emph_cs)
 advertise_marked = set_from_env('ADVERTISE_MARKED', True)
+send_marked_only = set_from_env('SEND_MARKED_ONLY', False)
 skip_cs = set_from_env('SKIP_CS', None)
 skip_physics = set_from_env('SKIP_PHYSICS', skip_cs)
 
@@ -49,10 +52,13 @@ if __name__ == "__main__":
         # reformat email
         if title == 'physics':
             html_msg, is_marked = reformat_email(msg=cur_msg, ttl=title, mark_authors=mark_physics,
-                                                 skip_words=skip_physics)
+                                                 mark_titles=emph_physics, skip_words=skip_physics,
+                                                 send_marked_only=send_marked_only)
             email_recipients = email_recipients_physics
         else:
-            html_msg, is_marked = reformat_email(msg=cur_msg, ttl=title, mark_authors=mark_cs, skip_words=skip_cs)
+            html_msg, is_marked = reformat_email(msg=cur_msg, ttl=title, mark_authors=mark_cs,
+                                                 mark_titles=emph_cs, skip_words=skip_cs,
+                                                 send_marked_only=send_marked_only)
             email_recipients = email_recipients_cs
 
         if is_marked and advertise_marked:

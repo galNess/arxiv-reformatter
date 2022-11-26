@@ -6,10 +6,10 @@ This is a simple repo to reformat arXiv subscription emails into a more easily r
 
 
 ## Key features
-1. Strips abstracts.
-2. Highlights listings from selected authors.
-3. Skips listings with specified title words (clears some hype).
-4. Handles two arXiv categories with individual parameters for each.
+1. Strip abstracts.
+2. Highlight listings from selected authors or with specific keywords in their titles.
+3. Skip listings with specified title words (clears some hype), or even send only marked listings.
+4. Handle two arXiv categories with individual parameters for each.
 
 
 ## Usage
@@ -22,7 +22,8 @@ and send them to your own email.
 2. Subscribe to arXiv with this account (instructions on 
    [https://arxiv.org/help/subscribe](https://arxiv.org/help/subscribe)).
 3. Fork this repo.
-4. Go to the repo settings, and add the following secrets:
+4. Add the following secrets by going to the repo settings, under `Security` -> `Secrets` -> `Actions` ->
+   `New repository secret` (green button @ top right).
     - `EMAIL_USERNAME`: Email address of the dummy Gmail account, e.g., `yourdummyaccount@gmail.com`.
     - `EMAIL_PASSWORD`: App password of the dummy Gmail account, e.g., `your appp assw ordd`.
     - `EMAIL_RECIPIENTS_CS`: Address(es) you want to send the reformatted emails to, e.g.,
@@ -38,14 +39,16 @@ and send them to your own email.
       first and last names, e.g., `["John Doe", "Jane Doe"]`, and avoid middle names.
       Also here, as in the following parameters, note that the quotes are necessary to cast it in the string.
     - `MARK_PHYSICS`: **optional**. Same as `MARK_CS`, but for *physics* arXiv emails.
+    - `EMPH_CS`: **optional**. List of words to highlight in the listing titles, i.e., your research interests.
+    - `EMPH_PHYSICS`: **optional**. Same as `EMPH_CS`, but for *physics* arXiv emails.
     - `ADVERTISE_MARKED`: **optional**, [default is `True`]. If you want to send emails that feature marked authors 
        also to the other mailing list.
+    - `SEND_MARKED_ONLY`: **optional**, [default is `False`]. Only include listings with highlights (authors or titles)
+       in the reformatted email.
     - `SKIP_CS`: **optional**. List of words in the title to skip from reformatting. This is useful if you want
       to skip some papers that you find irrelevant, .e.g., `["crypto", "vision"]`.
     - `SKIP_PHYSICS`: **optional**. Same as `SKIP_CS`, but for *physics* arXiv emails.
-	- Note that **optional** parameters are, well, optional. But if you don't keep them in the environment make sure to
-	  clear them from the `/.github/workflows/actions.yml` file too!
-5. Go to the repo actions, and enable the workflow.
+5. Go to the repo actions, and enable the workflow (in case you haven't done this already).
     - To dig deeper into the gitHub actions part, you can check out 
       [the template I forked](https://gitHub.com/patrickloeber/python-gitHub-action-template) to create this repo.
 6. Enjoy!
