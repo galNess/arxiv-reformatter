@@ -60,8 +60,9 @@ Later this can be used to trigger the action at more appropriate times.
 GitHub’s free tier offers 2000 runtime minutes per month. One run takes about 20s, so it’s ~200 runs per day.
 
 ## Credits
-* Repo by [Gal Ness](https://github.com/galNess), 2022. Source: [github.com/galNess/arxiv-reformatter](https://github.com/galNess/arxiv-reformatter).
+* Repo by [Gal Ness](https://github.com/galNess), 2022.
 * Modified from [python-gitHub-action-template](https://gitHub.com/patrickloeber/python-gitHub-action-template) fork due to [Patrick Loeber](https://github.com/patrickloeber).
+* Source: [github.com/galNess/arxiv-reformatter](https://github.com/galNess/arxiv-reformatter).
 
 ## Last run status
 [![run main.py](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml/badge.svg)](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml)
