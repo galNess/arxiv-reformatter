@@ -66,3 +66,5 @@ GitHub’s free tier offers 2000 runtime minutes per month. One run takes about 
 
 ## Last run status
 [![run main.py](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml/badge.svg)](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml)
+
+(Notice that this ^ [status badge](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge) links to my original repo. To get your status, update the above line in the README.md file with your info).
