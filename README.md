@@ -39,7 +39,8 @@ and send them to your own email.
       first and last names, e.g., `["John Doe", "Jane Doe"]`, and avoid middle names.
       Also here, as in the following parameters, note that the quotes are necessary to cast it in the string.
     - `MARK_PHYSICS`: **optional**. Same as `MARK_CS`, but for *physics* arXiv emails.
-    - `EMPH_CS`: **optional**. List of words to highlight in the listing titles, i.e., your research interests.
+    - `EMPH_CS`: **optional**. List of words to highlight in the listing titles (your research interests), e.g.,
+      `["Artificial General Intelligence", "liquid time"]`.
     - `EMPH_PHYSICS`: **optional**. Same as `EMPH_CS`, but for *physics* arXiv emails.
     - `ADVERTISE_MARKED`: **optional**, [default is `True`]. If you want to send emails that feature marked authors 
        also to the other mailing list.
