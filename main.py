@@ -2,6 +2,7 @@ from reformatter import *
 import logging
 import logging.handlers
 
+
 # load parameters from environment secrets
 email_username = set_from_env('EMAIL_USERNAME', 'vital')
 email_password = set_from_env('EMAIL_PASSWORD', 'vital')
