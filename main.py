@@ -6,11 +6,22 @@ import logging.handlers
 # load parameters from environment secrets
 email_username = set_from_env('EMAIL_USERNAME', 'vital')
 email_password = set_from_env('EMAIL_PASSWORD', 'vital')
+
 email_recipients_cs = set_from_env('EMAIL_RECIPIENTS_CS', 'vital')
+if email_recipients_cs is None:
+    email_recipients_cs = []
+elif isinstance(email_recipients_cs, str):
+    email_recipients_cs = [email_recipients_cs]
 email_recipients_physics = set_from_env('EMAIL_RECIPIENTS_PHYSICS', email_recipients_cs)
+if email_recipients_physics is None:
+    email_recipients_physics = []
+elif isinstance(email_recipients_physics, str):
+    email_recipients_physics = [email_recipients_physics]
+
 email_recipients_all = []  # generate unique list of recipients from all categories
 email_recipients_all = [x for x in email_recipients_cs + email_recipients_physics if x not in email_recipients_all and
                         not email_recipients_all.append(x)]
+
 trash_fetched = set_from_env('TRASH_FETCHED', False)
 mark_cs = set_from_env('MARK_CS', None)
 mark_physics = set_from_env('MARK_PHYSICS', mark_cs)
