@@ -74,9 +74,9 @@ if __name__ == "__main__":
         email_subject = title + " arXiv, " + date_time[5:16]
         reformatter.send_email(msg=html_msg, subject=email_subject, recipients=email_recipients)
 
-        # archive, mark (,/ and delete) the original message from the server:
+        # archive (/ and delete) the original message from the server:
         reformatter.mail_imap.store(msg_id, '+FLAGS', '\\Deleted')  # send to archive
-        reformatter.mail_imap.store(msg_id, '+FLAGS', 'reformatted')
+        # reformatter.mail_imap.store(msg_id, '+FLAGS', 'reformatted') # add 'reformatted' label - debug reading loop
         if trash_fetched:
             reformatter.mail_imap.store(msg_id, '+X-GM-LABELS', '\\Trash')
 

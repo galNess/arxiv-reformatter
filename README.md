@@ -1,6 +1,8 @@
 # [arXiv reformatter](https://github.com/galNess/arxiv-reformatter)
 
-This is a simple repo to reformat arXiv subscription emails into a more easily readable format.
+| This is a simple repo to reformat arXiv subscription emails into a more easily readable format. |
+|-------------------------------------------------------------------------------------------------|
+
 
 ![Usage examples](arxiv_reformatter.png)
 
@@ -62,16 +64,21 @@ Currently, the action initiates twice every hour and gathers statistics on the e
 Later this can be used to trigger the action at more appropriate times.
 GitHub’s free tier offers 2000 runtime minutes per month. One run takes about 20s, so it’s ~200 runs per day.
 
+
 ## Easy upgrades
 If you want to contribute, please consider:
 1. Moving some non-sensitive secrets to a CSV (or other) external file. Optimally, it will not be duplicated to forked repositories.
 2. Adding keyword marks also in abstract text (easy).
 3. Handling reply emails. For example, it can be smooth to add new keywords by emailing back the dummy address.
 
+
 ## Credits
 * Repo by [Gal Ness](https://github.com/galNess), 2022.
 * Modified from [python-gitHub-action-template](https://gitHub.com/patrickloeber/python-gitHub-action-template) fork due to [Patrick Loeber](https://github.com/patrickloeber).
 * Source: [github.com/galNess/arxiv-reformatter](https://github.com/galNess/arxiv-reformatter).
+
+Feel free to share, fork and modify this repo to your needs!
+
 
 ## Last run status
 [![run main.py](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml/badge.svg)](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml)

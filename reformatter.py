@@ -263,10 +263,10 @@ class ArxivReformatter:
 
             from_arxiv = from_arxiv[0].split(b' ')
 
-            for msg_id in from_arxiv:
-                labels = self.mail_imap.fetch(msg_id, '(X-GM-LABELS)')
-                if b'reformatted' in labels[1][0]:
-                    from_arxiv.remove(msg_id)
+            # for msg_id in from_arxiv:  # debug before uncommenting
+            #     labels = self.mail_imap.fetch(msg_id, '(X-GM-LABELS)')
+            #     if b'reformatted' in labels[1][0]:
+            #         from_arxiv.remove(msg_id)
 
         msg_id = from_arxiv[0]
 
