@@ -296,7 +296,10 @@ class ArxivReformatter:
         email_message = MIMEMultipart('alternative')
         email_message['Subject'] = subject
         email_message['From'] = self.email_username
-        email_message['To'] = ', '.join(recipients)
+        if isinstance(recipients, list):
+            email_message['To'] = ', '.join(recipients)
+        else:
+            email_message['To'] = recipients
         msg_body = MIMEText(msg, 'html')
         email_message.attach(msg_body)
 
