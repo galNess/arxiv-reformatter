@@ -2,7 +2,6 @@ from reformatter import *
 import logging
 import logging.handlers
 
-
 # load parameters from environment secrets
 email_username = set_from_env('EMAIL_USERNAME', 'vital')
 email_password = set_from_env('EMAIL_PASSWORD', 'vital')
@@ -72,9 +71,10 @@ if __name__ == "__main__":
 
         # send email
         email_subject = title + " arXiv, " + date_time[5:16]
-        # reformatter.send_email(msg=html_msg, subject=email_subject, recipients=email_recipients)
+        reformatter.send_email(msg=html_msg, subject=email_subject, recipients=email_recipients)
 
-        # mark (/ and delete) the original message from the server:
+        # archive, mark (,/ and delete) the original message from the server:
+        reformatter.mail_imap.store(msg_id, '+FLAGS', '\\Deleted')  # send to archive
         reformatter.mail_imap.store(msg_id, '+FLAGS', 'reformatted')
         if trash_fetched:
             reformatter.mail_imap.store(msg_id, '+X-GM-LABELS', '\\Trash')

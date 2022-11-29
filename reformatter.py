@@ -257,7 +257,7 @@ class ArxivReformatter:
 
         # if no emails from arXiv were given, find them:
         if from_arxiv == ['first iteration'] or self.trash_fetched or (not from_arxiv):
-            sts_msg, from_arxiv = self.mail_imap.search(None, 'UnSeen', 'FROM', '"no-reply@arxiv.org"')
+            sts_msg, from_arxiv = self.mail_imap.search(None, 'FROM', '"no-reply@arxiv.org"')
             if sts_msg != 'OK':
                 raise ValueError("Error searching Inbox.")
 
