@@ -32,15 +32,14 @@ and send them to your own email.
       Generally, *cs* sets the default values for any other undefined category.
     - `EMAIL_RECIPIENTS_PHYSICS`: **optional**. Address(es) to send *physics* arXiv emails to. If you don't specify
       this one, it follows `EMAIL_RECIPIENTS_CS`.
-    - `TRASH_FETCHED_EMAILS`: **optional**, [default is `True`]. If you want to delete the emails from the dummy Gmail
-      account after they are reformatted, set this to `True`. Otherwise, set it to `False`.
+    - `TRASH_FETCHED_EMAILS`: **optional**, [default is `False`]. If you want to delete the emails from the dummy Gmail
+      account after they are reformatted, set this to `True`.
       This is not a secret, but it is simpler to set all parameters in the same way.
     - `MARK_CS`: **optional**. List of authors to mark in the email head (and bold in the body). Note to only use
       first and last names, e.g., `["John Doe", "Jane Doe"]`, and avoid middle names.
       Also here, as in the following parameters, note that the quotes are necessary to cast it in the string.
     - `MARK_PHYSICS`: **optional**. Same as `MARK_CS`, but for *physics* arXiv emails.
-    - `EMPH_CS`: **optional**. List of words to highlight in the listing titles (your research interests), e.g.,
-      `["Artificial General Intelligence", "liquid time"]`.
+    - `EMPH_CS`: **optional**. List of words to highlight in the listing titles, i.e., your research interests.
     - `EMPH_PHYSICS`: **optional**. Same as `EMPH_CS`, but for *physics* arXiv emails.
     - `ADVERTISE_MARKED`: **optional**, [default is `True`]. If you want to send emails that feature marked authors 
        also to the other mailing list.
@@ -62,6 +61,12 @@ You can easily modify the code to suit your needs.
 Currently, the action initiates twice every hour and gathers statistics on the email times from arXiv.
 Later this can be used to trigger the action at more appropriate times.
 GitHub’s free tier offers 2000 runtime minutes per month. One run takes about 20s, so it’s ~200 runs per day.
+
+## Easy upgrades
+If you want to contribute, please consider:
+1. Moving some non-sensitive secrets to a CSV (or other) external file. Optimally, it will not be duplicated to forked repositories.
+2. Adding keyword marks also in abstract text (easy).
+3. Handling reply emails. For example, it can be smooth to add new keywords by emailing back the dummy address.
 
 ## Credits
 * Repo by [Gal Ness](https://github.com/galNess), 2022.

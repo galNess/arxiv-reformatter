@@ -33,6 +33,13 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
                         marked: bool, if the email contains a marked author to use with "advertise_marked").
     """
 
+    if skip_words is None:
+        skip_words = []
+    if mark_titles is None:
+        mark_titles = []
+    if mark_authors is None:
+        mark_authors = []
+
     links = []
     titles = []
     authors = []
@@ -43,7 +50,7 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
     marked = []
     marked_num = [False] * len(mark_authors)
     keywords = []
-    keywords_num = [False] * len(mark_authors)
+    keywords_num = [False] * len(mark_titles)
     marked_firsts = [author.split(' ')[0] for author in mark_authors]
     marked_lasts = [author.split(' ')[-1] for author in mark_authors]
 
@@ -235,7 +242,7 @@ class ArxivReformatter:
         # connect to the email server:
         self.mail_imap = imaplib.IMAP4_SSL("imap.gmail.com", 993)
         self.mail_imap.login(self.email_username, self.email_password)
-        self.mail_imap.select()
+        self.mail_imap.select('Inbox')
         self.mail_smtp = smtplib.SMTP('smtp.gmail.com:587')
         self.mail_smtp.ehlo()
         self.mail_smtp.starttls()
@@ -250,11 +257,17 @@ class ArxivReformatter:
 
         # if no emails from arXiv were given, find them:
         if from_arxiv == ['first iteration'] or self.trash_fetched or (not from_arxiv):
-            sts_msg, from_arxiv = self.mail_imap.search(None, 'FROM', '"no-reply@arxiv.org"')
+            sts_msg, from_arxiv = self.mail_imap.search(None, 'UnSeen', 'FROM', '"no-reply@arxiv.org"')
             if sts_msg != 'OK':
                 raise ValueError("Error searching Inbox.")
 
             from_arxiv = from_arxiv[0].split(b' ')
+
+            for msg_id in from_arxiv:
+                labels = self.mail_imap.fetch(msg_id, '(X-GM-LABELS)')
+                if b'reformatted' in labels[1][0]:
+                    from_arxiv.remove(msg_id)
+
         msg_id = from_arxiv[0]
 
         if not msg_id:

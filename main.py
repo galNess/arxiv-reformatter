@@ -2,6 +2,7 @@ from reformatter import *
 import logging
 import logging.handlers
 
+
 # load parameters from environment secrets
 email_username = set_from_env('EMAIL_USERNAME', 'vital')
 email_password = set_from_env('EMAIL_PASSWORD', 'vital')
@@ -10,7 +11,7 @@ email_recipients_physics = set_from_env('EMAIL_RECIPIENTS_PHYSICS', email_recipi
 email_recipients_all = []  # generate unique list of recipients from all categories
 email_recipients_all = [x for x in email_recipients_cs + email_recipients_physics if x not in email_recipients_all and
                         not email_recipients_all.append(x)]
-trash_fetched = set_from_env('TRASH_FETCHED', True)
+trash_fetched = set_from_env('TRASH_FETCHED', False)
 mark_cs = set_from_env('MARK_CS', None)
 mark_physics = set_from_env('MARK_PHYSICS', mark_cs)
 emph_cs = set_from_env('EMPH_CS', None)
@@ -44,7 +45,7 @@ if __name__ == "__main__":
         from_arxiv, cur_msg, date_time = reformatter.fetch_emails(from_arxiv)
         if cur_msg is None:  # no more arXiv emails
             break
-            
+
         title = extract_email_category(cur_msg)
         msg_id = from_arxiv.pop(0)
 
@@ -71,9 +72,10 @@ if __name__ == "__main__":
 
         # send email
         email_subject = title + " arXiv, " + date_time[5:16]
-        reformatter.send_email(msg=html_msg, subject=email_subject, recipients=email_recipients)
+        # reformatter.send_email(msg=html_msg, subject=email_subject, recipients=email_recipients)
 
-        # delete the original message from the server:
+        # mark (/ and delete) the original message from the server:
+        reformatter.mail_imap.store(msg_id, '+FLAGS', 'reformatted')
         if trash_fetched:
             reformatter.mail_imap.store(msg_id, '+X-GM-LABELS', '\\Trash')
 
