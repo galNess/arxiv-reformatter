@@ -36,7 +36,10 @@ and send them to your own email.
       this one, it follows `EMAIL_RECIPIENTS_CS`.
     - `TRASH_FETCHED_EMAILS`: **optional**, [default is `False`]. If you want to delete the emails from the dummy Gmail
       account after they are reformatted, set this to `True`.
-      This is not a secret, but it is simpler to set all parameters in the same way.
+
+    This (and the following) are not really secrets, but it is simpler to set all parameters in the same way.
+    If you want to be able to see the content (or just lazy), you can alternatively tweak it and update the values
+    directly in `main.py` (lines 25-33) or at `.github/workflows/actions.yml` (lines 28-36).
     - `MARK_CS`: **optional**. List of authors to mark in the email head (and bold in the body). Note to only use
       first and last names, e.g., `["John Doe", "Jane Doe"]`, and avoid middle names.
       Also here, as in the following parameters, note that the quotes are necessary to cast it in the string.
@@ -50,7 +53,9 @@ and send them to your own email.
     - `SKIP_CS`: **optional**. List of words in the title to skip from reformatting. This is useful if you want
       to skip some papers that you find irrelevant, .e.g., `["crypto", "vision"]`.
     - `SKIP_PHYSICS`: **optional**. Same as `SKIP_CS`, but for *physics* arXiv emails.
-5. Go to the repo actions, and enable the workflow (in case you haven't done this already).
+5. Go to the repo actions, and enable the workflow:
+    - In `Actions` tab (not the `Actions` within the `Settings` one), click the green enabling button.
+    - Go to `run main.py` on the left bar (under `Actions`), then click `Enable workflow` on the right.
     - To dig deeper into the gitHub actions part, you can check out 
       [the template I forked](https://gitHub.com/patrickloeber/python-gitHub-action-template) to create this repo.
 6. Enjoy!
@@ -81,6 +86,5 @@ Feel free to share, fork and modify this repo to your needs!
 
 
 ## Last run status
-[![run main.py](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml/badge.svg)](https://github.com/galNess/arxiv-reformatter/actions/workflows/actions.yml)
+[![run main.py](../..//actions/workflows/actions.yml/badge.svg)](../../actions/workflows/actions.yml)
 
-(Notice that this ^ [status badge](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge) links to my original repo. To get your status, update the above line in the README.md file with your info).
