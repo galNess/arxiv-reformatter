@@ -61,7 +61,7 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
     for idx in range(len(listing_idx) - 1):
         if idx >= len(listing_idx) - 1:  # in case we removed some items
             break
-        cur_link = msg[listing_idx[idx] + 6:listing_idx[idx] + 16]
+        cur_link = msg[listing_idx[idx] + 6:listing_idx[idx] + 16].replace('\r', '')
         while not 'https://arxiv.org/abs/' + cur_link in msg[listing_idx[idx] + 16:listing_idx[idx + 1]]:
             listing_idx.pop(idx + 1)
         cur_listing = msg[listing_idx[idx]:listing_idx[idx + 1]]  # .replace('\r\n', '')
