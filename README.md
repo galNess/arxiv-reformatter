@@ -74,7 +74,10 @@ GitHub’s free tier offers 2000 runtime minutes per month. One run takes about 
 If you want to contribute, please consider:
 1. Moving some non-sensitive secrets to a CSV (or other) external file. Optimally, it will not be duplicated to forked repositories.
 2. Adding keyword marks also in abstract text (easy).
-3. Handling reply emails. For example, it can be smooth to add new keywords by emailing back the dummy address.
+3. Moving highlighted listings to the top of the list. 
+4. Handling reply emails. For example, it can be smooth to add new keywords by emailing back the dummy address.
+
+A more extensive upgrade would be to ditch the original digest emails and work directly with the [arXiv API](https://arxiv.org/help/api/).
 
 
 ## Credits
