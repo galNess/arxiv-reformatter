@@ -2,7 +2,7 @@ name: run main.py
 
 on:
   schedule:
-    - cron: '*/30 * * * *' # At every 30th minute, see https://crontab.guru/#*/30_*_*_*_*
+    - cron: '5,35 4-11 * * *' # At every 5+30th minute, from 4 till 12, see https://crontab.guru/#*/30_*_*_*_*
   push:
     branches: [ master ]
 
