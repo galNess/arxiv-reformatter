@@ -32,6 +32,7 @@ jobs:
           EMPH_PHYSICS: ${{ secrets.EMPH_PHYSICS }}
           ADVERTISE_MARKED: ${{ secrets.ADVERTISE_MARKED }}
           SEND_MARKED_ONLY: ${{ secrets.SEND_MARKED_ONLY }}
+          SEND_NEW_ONLY: ${{ secrets.SEND_NEW_ONLY }}
           SKIP_CS: ${{ secrets.SKIP_CS }}
           SKIP_PHYSICS: ${{ secrets.SKIP_PHYSICS }}
         run: python main.py
