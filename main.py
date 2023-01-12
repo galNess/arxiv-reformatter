@@ -29,6 +29,7 @@ emph_cs = set_from_env('EMPH_CS', None)
 emph_physics = set_from_env('EMPH_PHYSICS', emph_cs)
 advertise_marked = set_from_env('ADVERTISE_MARKED', True)
 send_marked_only = set_from_env('SEND_MARKED_ONLY', False)
+send_new_only = set_from_env('SEND_NEW_ONLY', False)
 skip_cs = set_from_env('SKIP_CS', None)
 skip_physics = set_from_env('SKIP_PHYSICS', skip_cs)
 
@@ -75,7 +76,8 @@ if __name__ == "__main__":
         else:
             html_msg, is_marked = reformat_email(msg=cur_msg, ttl=title, mark_authors=mark_cs,
                                                  mark_titles=emph_cs, skip_words=skip_cs,
-                                                 send_marked_only=send_marked_only)
+                                                 send_marked_only=send_marked_only,
+                                                 send_new_only=send_new_only)
             email_recipients = email_recipients_cs
 
         if is_marked and advertise_marked:

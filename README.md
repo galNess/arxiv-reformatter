@@ -50,6 +50,7 @@ and send them to your own email.
        also to the other mailing list.
     - `SEND_MARKED_ONLY`: **optional**, [default is `False`]. Only include listings with highlights (authors or titles)
        in the reformatted email.
+    - `SEND_NEW_ONLY`: **optional**, [default is `False`]. Only include listings that are not updates (replacements).
     - `SKIP_CS`: **optional**. List of words in the title to skip from reformatting. This is useful if you want
       to skip some papers that you find irrelevant, .e.g., `["crypto", "vision"]`.
     - `SKIP_PHYSICS`: **optional**. Same as `SKIP_CS`, but for *physics* arXiv emails.

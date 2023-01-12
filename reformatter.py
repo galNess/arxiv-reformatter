@@ -21,7 +21,8 @@ def extract_email_category(email: str):
     return ttl
 
 
-def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip_words=None, send_marked_only=False) -> tuple:
+def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip_words=None, send_marked_only=False,
+                   send_new_only=False) -> tuple:
     """
     Parses the email message and generates an improved (clean) version.
     :param msg: original email message.
@@ -29,6 +30,8 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
     :param mark_authors: list of authors to highlight.
     :param mark_titles: list of words in titles to highlight.
     :param skip_words: list of words to skip listings that feature them in their titles.
+    :param send_marked_only: if True, only send emails that contain marked listings.
+    :param send_new_only: if True, only sends new listings.
     :return: tuple of: (clean_email: str - html formatted email,
                         marked: bool, if the email contains a marked author to use with "advertise_marked").
     """
@@ -137,6 +140,10 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
     msg_header += "Today's <b>" + ttl + "</b> arXiv: " + str(len(titles) - old_count) + " new listings and " + \
                   str(old_count) + " updates (" + str(sum(replaced)) + " replacements + " + str(sum(crossref)) + \
                   " crossrefs). <br>"
+
+    if send_new_only:
+        msg_header += "Replacements are not included. <br>"
+        skipped = [s or r for s, r in zip(skipped, replaced)]
 
     if sum(skipped) > 0:
         msg_header += 'Skipped ' + str(sum(skipped)) + ' listings: '
