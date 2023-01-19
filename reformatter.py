@@ -175,10 +175,18 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
                           ', '.join(['"' + mark_titles[i] + '"' for i in range(len(keywords_num)) if keywords_num[i]]) \
                           + ". <br>"
 
+    # restore skipped marked listings:
+    skipped = [s and not m for s, m in zip(skipped, marked)]
+    skipped = [s and not k for s, k in zip(skipped, keywords)]
+    total_listings_number = str(len(titles) - sum(skipped))
+
     msg_body = '<br><br>'
+    running_idx = 0
+
     for idx in range(len(titles)):
         if not skipped[idx]:
-            msg_body += 'Title ' + str(idx + 1) + ' out of ' + str(len(titles))
+            running_idx += 1
+            msg_body += 'Title ' + str(idx) + ' (' + str(running_idx) + ' out of ' + total_listings_number + ')'
 
             if replaced[idx] and crossref[idx]:
                 msg_body += ' (cross-listing, revised version)'
