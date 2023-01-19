@@ -186,7 +186,7 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
     for idx in range(len(titles)):
         if not skipped[idx]:
             running_idx += 1
-            msg_body += 'Title ' + str(idx) + ' (' + str(running_idx) + ' out of ' + total_listings_number + ')'
+            msg_body += 'Title ' + str(idx + 1) + ' (' + str(running_idx) + ' out of ' + total_listings_number + ')'
 
             if replaced[idx] and crossref[idx]:
                 msg_body += ' (cross-listing, revised version)'
