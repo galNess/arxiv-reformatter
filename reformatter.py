@@ -61,7 +61,7 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
     listing_idx.append(len(msg))
 
     # loop over all the listings in the email:
-    for idx in range(len(listing_idx) - 1):
+    for idx in range(len(listing_idx) - 1):  # last is end of email
         if idx >= len(listing_idx) - 1:  # in case we removed some items
             break
         cur_link = msg[listing_idx[idx] + 6:listing_idx[idx] + 16].replace('\r', '')
@@ -94,12 +94,15 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
 
         # check if we should highlight one of the keywords in the title:
         keywords.append(False)
+        cur_str = " " + cur_title.lower() + " "
+
         for i in range(len(mark_titles)):
-            if mark_titles[i].lower() in cur_title.lower():
+            cur_hit = " " + mark_titles[i].lower() + " "
+            if cur_hit in cur_str:
                 keywords[-1] = True
                 keywords_num[i] = True
 
-                emph_idx0 = cur_title.lower().find(mark_titles[i].lower())
+                emph_idx0 = cur_str.find(cur_hit)
                 emph_idx1 = emph_idx0 + len(mark_titles[i])
 
                 cur_title = '{0}<b>{1}</b>{2}'.format(cur_title[:emph_idx0], cur_title[emph_idx0:emph_idx1],
@@ -152,8 +155,21 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
                 msg_header += str(skipped_num[i]) + ' with "' + skip_words[i] + '", '
         msg_header = msg_header[:-2] + ". <br>"
 
+    # restore skipped marked listings:
+    skipped = [s and not m for s, m in zip(skipped, marked)]
+    skipped = [s and not k for s, k in zip(skipped, keywords)]
+
+    titles = [titles[i] for i in range(len(titles)) if not skipped[i]]
+    authors = [authors[i] for i in range(len(authors)) if not skipped[i]]
+    links = [links[i] for i in range(len(links)) if not skipped[i]]
+    crossref = [crossref[i] for i in range(len(crossref)) if not skipped[i]]
+    replaced = [replaced[i] for i in range(len(replaced)) if not skipped[i]]
+    marked = [marked[i] for i in range(len(marked)) if not skipped[i]]
+    keywords = [keywords[i] for i in range(len(keywords)) if not skipped[i]]
+
     is_marked = sum(marked) > 0
     is_keyword = sum(keywords) > 0
+
     if not send_marked_only:
         if is_marked:
             msg_header += 'Notice listings' if sum(marked) > 1 else 'Notice listing'
@@ -175,28 +191,20 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
                           ', '.join(['"' + mark_titles[i] + '"' for i in range(len(keywords_num)) if keywords_num[i]]) \
                           + ". <br>"
 
-    # restore skipped marked listings:
-    skipped = [s and not m for s, m in zip(skipped, marked)]
-    skipped = [s and not k for s, k in zip(skipped, keywords)]
-    total_listings_number = str(len(titles) - sum(skipped))
-
     msg_body = '<br><br>'
-    running_idx = 0
 
     for idx in range(len(titles)):
-        if not skipped[idx]:
-            running_idx += 1
-            msg_body += 'Title ' + str(idx + 1) + ' (' + str(running_idx) + ' out of ' + total_listings_number + ')'
+        msg_body += 'Title ' + str(idx + 1) + ' out of ' + str(len(titles)) + ': '
 
-            if replaced[idx] and crossref[idx]:
-                msg_body += ' (cross-listing, revised version)'
-            elif replaced[idx]:
-                msg_body += ' (revised version)'
-            elif crossref[idx]:
-                msg_body += ' (cross-listing)'
+        if replaced[idx] and crossref[idx]:
+            msg_body += ' (cross-listing, revised version)'
+        elif replaced[idx]:
+            msg_body += ' (revised version)'
+        elif crossref[idx]:
+            msg_body += ' (cross-listing)'
 
-            msg_body += '<br><b>' + titles[idx] + '</b><br>by ' + authors[idx] + '<br>is at ' + \
-                        '<a href="https://arxiv.org/abs/' + links[idx] + '">' + links[idx] + '</a><br><br><br>'
+        msg_body += '<br><b>' + titles[idx] + '</b><br>by ' + authors[idx] + '<br>is at ' + \
+                    '<a href="https://arxiv.org/abs/' + links[idx] + '">' + links[idx] + '</a><br><br><br>'
 
     msg_footer = """
             </p>
