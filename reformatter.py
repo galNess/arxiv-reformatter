@@ -1,4 +1,5 @@
 import os
+import re
 import imaplib
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -42,6 +43,8 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
         mark_titles = []
     if mark_authors is None:
         mark_authors = []
+    else:
+        mark_authors = [re.sub(r"[^a-zA-Z\s]", "", author) for author in mark_authors]
 
     links = []
     titles = []
@@ -73,7 +76,7 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
         author_idx = cur_listing.find('Authors: ', title_idx)
         cat_idx = cur_listing.find('Categories: ', author_idx)
         cur_title = cur_listing[title_idx + 7:author_idx]
-        cur_authors = cur_listing[author_idx + 9:cat_idx]
+        cur_authors = re.sub(r"[^a-zA-Z\s]", "", cur_listing[author_idx + 9:cat_idx])
 
         # check if we should highlight one of the authors:
         marked.append(False)
@@ -94,15 +97,14 @@ def reformat_email(msg: str, ttl: str, mark_authors=None, mark_titles=None, skip
 
         # check if we should highlight one of the keywords in the title:
         keywords.append(False)
-        cur_str = " " + cur_title.lower() + " "
 
         for i in range(len(mark_titles)):
-            cur_hit = " " + mark_titles[i].lower() + " "
-            if cur_hit in cur_str:
+            match = re.search(r"\b" + re.escape(mark_titles[i].lower()) + r"\b", cur_title.lower())
+            if match:
                 keywords[-1] = True
                 keywords_num[i] = True
 
-                emph_idx0 = cur_str.find(cur_hit)
+                emph_idx0 = match.start()
                 emph_idx1 = emph_idx0 + len(mark_titles[i])
 
                 cur_title = '{0}<b>{1}</b>{2}'.format(cur_title[:emph_idx0], cur_title[emph_idx0:emph_idx1],
